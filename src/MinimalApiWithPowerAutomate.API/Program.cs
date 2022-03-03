@@ -23,6 +23,17 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"));
 builder.Services.AddAuthorization();
 
+// Add CORS
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder =>
+    {
+        builder.AllowAnyOrigin();
+        builder.AllowAnyHeader();
+        builder.AllowAnyMethod();
+    });
+});
+
 // Add Serilog
 builder.Host.UseSerilog((hostingContext, loggerConfiguration) =>
 {
@@ -67,6 +78,9 @@ app.UseAuthorization();
 
 var scopeRequiredByApi = app.Configuration["AzureAd:Scopes"];
 app.RegisterEndpoints(Assembly.GetExecutingAssembly(), scopeRequiredByApi);
+
+app.UseHttpsRedirection();
+app.UseCors();
 
 app.Logger.LogInformation("Minimal API started with this Azure Conf.: {Value}", builder.Configuration.GetSection("AzureAd").Value);
 
