@@ -5,7 +5,14 @@ namespace MinimalApiWithPowerAutomate.API.Handlers
 {
     public class ECommerceHandler : IRouteEndPointHandler
     {
-        public void Map(IEndpointRouteBuilder app, string scopeRequiredByApi)
+        string ScopeRequiredByApi;
+
+        public ECommerceHandler(string scopeRequiredByApi)
+        {
+            ScopeRequiredByApi = scopeRequiredByApi;
+        }
+
+        public void Map(IEndpointRouteBuilder app)
         {
             app.MapGet("/orders", (HttpContext httpContext) =>
             {

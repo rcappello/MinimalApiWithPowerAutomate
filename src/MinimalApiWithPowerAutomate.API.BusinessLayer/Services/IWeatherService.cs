@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MinimalApiWithPowerAutomate.API.Shared.Models.Responses;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace MinimalApiWithPowerAutomate.API.BusinessLayer.Services
 {
-    public class ECommerceService : IECommerceService
+    public interface IWeatherService
     {
+        Task<WeatherForecast[]> GetWeatherForecastAsync();
     }
 }

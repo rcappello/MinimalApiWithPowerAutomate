@@ -10,13 +10,12 @@ public static class WebApplicationExtensions
 
         var routeEndpointHanlderTypes = assembly.GetTypes().Where(t =>
             t.IsClass && !t.IsAbstract
-            && t.GetConstructor(Type.EmptyTypes) != null
             && routeEndpointHandlerInterfaceType.IsAssignableFrom(t));
 
         foreach (var routeEndpointHandlerType in routeEndpointHanlderTypes)
         {
-            var instantiatedType = (IRouteEndPointHandler) Activator.CreateInstance(routeEndpointHandlerType);
-            instantiatedType.Map(app, scopeRequiredByApi);
+            var instantiatedType = (IRouteEndPointHandler) Activator.CreateInstance(routeEndpointHandlerType, scopeRequiredByApi );
+            instantiatedType.Map(app);
         }
     }
 }

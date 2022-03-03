@@ -2,5 +2,5 @@
 
 public interface IRouteEndPointHandler
 {
-    public void Map(IEndpointRouteBuilder app, string scopeRequiredByApi);
+    public void Map(IEndpointRouteBuilder app);
 }

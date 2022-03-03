@@ -1,48 +1,38 @@
-﻿using Microsoft.Identity.Web.Resource;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Web.Resource;
+using MinimalApiWithPowerAutomate.API.BusinessLayer.Services;
+using MinimalApiWithPowerAutomate.API.Extensions;
 using MinimalApiWithPowerAutomate.API.Registration;
 
 namespace MinimalApiWithPowerAutomate.API.Handlers
 {
     public class WeatherHandler : IRouteEndPointHandler
     {
-        ILogger<WeatherHandler> Logger;
+        string ScopeRequiredByApi;
 
-        public WeatherHandler(ILogger<WeatherHandler> logger)
+        public WeatherHandler(string scopeRequiredByApi)
         {
-            Logger = logger;
+            ScopeRequiredByApi = scopeRequiredByApi;
         }
 
-        public void Map(IEndpointRouteBuilder app, string scopeRequiredByApi)
+        public void Map(IEndpointRouteBuilder app)
         {
-            var summaries = new[]
-            {
-                "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-            };
-
-            app.MapGet("/weatherforecast", (HttpContext httpContext) =>
-            {
-                Logger.LogInformation($"weatherforecast accessed by user: {httpContext.User.Identity?.Name}");
-                Logger.LogInformation($"VerifyUserHasAnyAcceptedScope: {scopeRequiredByApi}");
-
-                httpContext.VerifyUserHasAnyAcceptedScope(scopeRequiredByApi);
-
-                var forecast = Enumerable.Range(1, 5).Select(index =>
-                   new WeatherForecast
-                   (
-                       DateTime.Now.AddDays(index),
-                       Random.Shared.Next(-20, 55),
-                       summaries[Random.Shared.Next(summaries.Length)]
-                   ))
-                    .ToArray();
-                return forecast;
-            })
+            app.MapGet("/weatherforecast", GetWeatherForecast)
             .WithName("GetWeatherForecast")
             .RequireAuthorization();
         }
 
-        internal record WeatherForecast(DateTime Date, int TemperatureC, string? Summary)
+        private async Task<IResult> GetWeatherForecast(
+            [FromServices] WeatherService weatherService, 
+            [FromServices] ILogger<WeatherHandler> logger,
+            HttpContext httpContext)
         {
-            public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+            if(!httpContext.VerifyUserHasAnyAcceptedScopeAndReturnRightResult(logger, out var userAccessResult, ScopeRequiredByApi))
+                return userAccessResult;
+
+            var result = await weatherService.GetWeatherForecastAsync();
+
+            return Results.Ok(result);
         }
     }
 }
