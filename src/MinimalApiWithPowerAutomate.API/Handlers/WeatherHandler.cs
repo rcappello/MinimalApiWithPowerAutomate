@@ -5,6 +5,13 @@ namespace MinimalApiWithPowerAutomate.API.Handlers
 {
     public class WeatherHandler : IRouteEndPointHandler
     {
+        ILogger<WeatherHandler> Logger;
+
+        public WeatherHandler(ILogger<WeatherHandler> logger)
+        {
+            Logger = logger;
+        }
+
         public void Map(IEndpointRouteBuilder app, string scopeRequiredByApi)
         {
             var summaries = new[]
@@ -14,6 +21,9 @@ namespace MinimalApiWithPowerAutomate.API.Handlers
 
             app.MapGet("/weatherforecast", (HttpContext httpContext) =>
             {
+                Logger.LogInformation($"weatherforecast accessed by user: {httpContext.User.Identity?.Name}");
+                Logger.LogInformation($"VerifyUserHasAnyAcceptedScope: {scopeRequiredByApi}");
+
                 httpContext.VerifyUserHasAnyAcceptedScope(scopeRequiredByApi);
 
                 var forecast = Enumerable.Range(1, 5).Select(index =>

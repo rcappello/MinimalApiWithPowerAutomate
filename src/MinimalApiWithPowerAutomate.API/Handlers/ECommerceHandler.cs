@@ -13,7 +13,7 @@ namespace MinimalApiWithPowerAutomate.API.Handlers
 
                 return String.Empty;
             })
-            .WithName("GetWeatherForecast")
+            .WithName("GetOrders")
             ;//.RequireAuthorization();
         }
     }
