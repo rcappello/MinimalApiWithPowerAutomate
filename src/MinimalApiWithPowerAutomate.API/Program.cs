@@ -65,6 +65,10 @@ builder.Services.AddScoped<ECommerceService>();
 
 var app = builder.Build();
 
+//if (app.Environment.IsDevelopment()) //Always enabled for the Demo
+{
+  Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII = true;
+}
 // Configure the HTTP request pipeline.
 //if (app.Environment.IsDevelopment()) //Always enabled for the Demo
 {
