@@ -68,4 +68,6 @@ app.UseAuthorization();
 var scopeRequiredByApi = app.Configuration["AzureAd:Scopes"];
 app.RegisterEndpoints(Assembly.GetExecutingAssembly(), scopeRequiredByApi);
 
+app.Logger.LogInformation("Minimal API started with this Azure Conf.: {Value}", builder.Configuration.GetSection("AzureAd").Value);
+
 app.Run();
