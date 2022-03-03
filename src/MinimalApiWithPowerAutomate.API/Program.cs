@@ -3,12 +3,14 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.Resource;
+using Microsoft.IdentityModel.Tokens;
 using MinimalApiWithPowerAutomate.API.BusinessLayer.Mappers;
 using MinimalApiWithPowerAutomate.API.BusinessLayer.Services;
 using MinimalApiWithPowerAutomate.API.DataAccessLayer;
 using MinimalApiWithPowerAutomate.API.Registration;
 using Serilog;
 using System.Reflection;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,6 +41,8 @@ builder.Host.UseSerilog((hostingContext, loggerConfiguration) =>
 {
     loggerConfiguration.ReadFrom.Configuration(hostingContext.Configuration);
 });
+// Add Console
+builder.Logging.AddConsole();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -82,6 +86,6 @@ app.RegisterEndpoints(Assembly.GetExecutingAssembly(), scopeRequiredByApi);
 app.UseHttpsRedirection();
 app.UseCors();
 
-app.Logger.LogInformation("Minimal API started with this Azure Conf.: {Value}", builder.Configuration.GetSection("AzureAd").Value);
+app.Logger.LogInformation("Minimal API started with this Azure TenantId : {TenantId}", builder.Configuration.GetSection("AzureAd").GetValue<string>("TenantId"));
 
 app.Run();
