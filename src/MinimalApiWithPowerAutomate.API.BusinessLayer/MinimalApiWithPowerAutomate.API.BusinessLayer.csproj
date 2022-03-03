@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+  </PropertyGroup>
+	
+	<ItemGroup>
+		<PackageReference Include="AutoMapper" Version="10.1.1" />
+		<PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+		<PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\MinimalApiWithPowerAutomate.API.DataAccessLayer\MinimalApiWithPowerAutomate.API.DataAccessLayer.csproj" />
+		<ProjectReference Include="..\MinimalApiWithPowerAutomate.API.Shared\MinimalApiWithPowerAutomate.API.Shared.csproj" />
+	</ItemGroup>
+
+</Project>
