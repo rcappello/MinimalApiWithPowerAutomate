@@ -57,6 +57,7 @@ builder.Services.AddDbContext<IApplicationDbContext, ApplicationDbContext>(optio
         providerOptions.EnableRetryOnFailure(3, TimeSpan.FromSeconds(1), null);
         providerOptions.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
     });
+    options.LogTo(Console.WriteLine);
 });
 
 // Add Services

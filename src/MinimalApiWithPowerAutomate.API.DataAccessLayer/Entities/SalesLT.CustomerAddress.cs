@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace MinimalApiWithPowerAutomate.API.DataAccessLayer.Entities
 {
-    [Table("SalesLT.CustomerAddress")]
+    [Table("CustomerAddress", Schema = "SalesLT")]
     public class CustomerAddress
     {
-        public int CustomerID { get; set; }
-        public int AddressID { get; set; }
+        public int CustomerId { get; set; }
+        public int AddressId { get; set; }
         public string AddressType { get; set; }
-        public System.Guid rowguid { get; set; }
-        public System.DateTime ModifiedDate { get; set; }
+        public Guid Rowguid { get; set; }
+        public DateTime ModifiedDate { get; set; }
 
         public virtual Address Address { get; set; }
         public virtual Customer Customer { get; set; }

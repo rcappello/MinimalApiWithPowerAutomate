@@ -8,7 +8,7 @@ namespace MinimalApiWithPowerAutomate.API.Handlers
 {
     public class WeatherHandler : IRouteEndPointHandler
     {
-        string ScopeRequiredByApi;
+        readonly string ScopeRequiredByApi;
 
         public WeatherHandler(string scopeRequiredByApi)
         {
@@ -17,12 +17,12 @@ namespace MinimalApiWithPowerAutomate.API.Handlers
 
         public void Map(IEndpointRouteBuilder app)
         {
-            app.MapGet("/weatherforecast", GetWeatherForecast)
+            app.MapGet("/weatherforecast", GetWeatherForecastAsync)
             .WithName("GetWeatherForecast")
             .RequireAuthorization();
         }
 
-        private async Task<IResult> GetWeatherForecast(
+        private async Task<IResult> GetWeatherForecastAsync(
             [FromServices] WeatherService weatherService, 
             [FromServices] ILogger<WeatherHandler> logger,
             HttpContext httpContext)

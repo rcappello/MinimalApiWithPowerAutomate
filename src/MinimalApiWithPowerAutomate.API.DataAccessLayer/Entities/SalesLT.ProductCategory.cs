@@ -7,23 +7,23 @@ using System.Threading.Tasks;
 
 namespace MinimalApiWithPowerAutomate.API.DataAccessLayer.Entities
 {
-    [Table("SalesLT.ProductCategory")]
+    [Table("ProductCategory", Schema = "SalesLT")]
     public class ProductCategory
     {
         public ProductCategory()
         {
-            this.Product = new HashSet<Product>();
-            this.ProductCategory1 = new HashSet<ProductCategory>();
+            InverseParentProductCategory = new HashSet<ProductCategory>();
+            Products = new HashSet<Product>();
         }
 
-        public int ProductCategoryID { get; set; }
-        public Nullable<int> ParentProductCategoryID { get; set; }
+        public int ProductCategoryId { get; set; }
+        public int? ParentProductCategoryId { get; set; }
         public string Name { get; set; }
-        public Guid rowguid { get; set; }
+        public Guid Rowguid { get; set; }
         public DateTime ModifiedDate { get; set; }
 
-        public virtual ICollection<Product> Product { get; set; }
-        public virtual ICollection<ProductCategory> ProductCategory1 { get; set; }
-        public virtual ProductCategory ProductCategory2 { get; set; }
+        public virtual ProductCategory ParentProductCategory { get; set; }
+        public virtual ICollection<ProductCategory> InverseParentProductCategory { get; set; }
+        public virtual ICollection<Product> Products { get; set; }
     }
 }

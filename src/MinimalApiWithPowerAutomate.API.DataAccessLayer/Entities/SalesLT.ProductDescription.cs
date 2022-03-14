@@ -7,18 +7,19 @@ using System.Threading.Tasks;
 
 namespace MinimalApiWithPowerAutomate.API.DataAccessLayer.Entities
 {
-    [Table("SalesLT.ProductDescription")]
+    [Table("ProductDescription", Schema = "SalesLT")]
     public class ProductDescription
     {
         public ProductDescription()
         {
-            this.ProductModelProductDescription = new HashSet<ProductModelProductDescription>();
+            ProductModelProductDescriptions = new HashSet<ProductModelProductDescription>();
         }
 
-        public int ProductDescriptionID { get; set; }
+        public int ProductDescriptionId { get; set; }
         public string Description { get; set; }
-        public Guid rowguid { get; set; }
+        public Guid Rowguid { get; set; }
         public DateTime ModifiedDate { get; set; }
-        public virtual ICollection<ProductModelProductDescription> ProductModelProductDescription { get; set; }
+
+        public virtual ICollection<ProductModelProductDescription> ProductModelProductDescriptions { get; set; }
     }
 }
